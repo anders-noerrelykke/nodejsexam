@@ -1,0 +1,17 @@
+{
+  "name": "nodejsexam",
+  "version": "1.0.0",
+  "description": "Exam project for NodeJS, 2nd semester, Web Development, KEA",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "Anders Nørrelykke",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "file-system": "^2.2.2",
+    "fs": "0.0.1-security",
+    "nodemon": "^1.17.4"
+  }
+}

@@ -16,23 +16,50 @@
 <div class="container">
     <header class="subMenu">
         <h2>Current posts</h2>
-        <button id="btnNewPost">New Post</button>
+        <button id="btnNewPost" onclick="readyNew()">New Post</button>
     </header>
     <div id="postsList"></div>
-</div>
 
-<div id="whoIsIt" class="whoIsIt">
-    <img class="imageTile" id="whoIsItImage" src="/img/user/user-3rb6wac1jiz2s6ss.jpg">
-    <p>Name: <span id="whoIsItName"></span></p>
-    <p>Email: <span id="whoIsItEmail"></span></p>
-    <p>Phone: <span id="whoIsItPhone"></span></p>
-    <p>Role: <span id="whoIsItRole"></span></p>
-</div>
+    <div id="newPostBox" class="infoBox">
+        <img class="closeButton" onclick="closeBox('newPostBox')" src="img/icons/x.png">
+        <h2>New Post</h2>
+        <form id="newPostForm" name="newPostForm">
+            <input id="newPostTitle" name="newPostTitle" class="largeInput extraFont" placeholder="Title">
+            <textarea id="newPostContent" name="newPostContent" class="largeInput larger" placeholder="My question is..."></textarea>
+            <span class="stayAtBottom">
+                <button id="postNewPost" class="bottomButton" onclick="createPost()">Post question</button>
+            </span>
+        </form>
+    </div>
 
-<div id="liveChat" class="liveChat">
-    <div id="liveChatWindow"></div>
-    <input id="chatMessage" placeholder="Type your message...">
-    <button id="chatSendMessage">Send</button>
+    <div id="showPostBox" class="infoBox">
+        <img class="closeButton" onclick="closeBox('showPostBox')" src="img/icons/x.png">
+        <h2 id="showPostTitle">Title</h2>
+        <p id="showPostContent">content content content</p>
+        <label for="commentsList">Comments</label>
+        <ul id="commentsList"></ul>
+        <span class="stayAtBottom">
+            <form id="newComment" name="newComment">
+                <textarea id="showPostNewComment" class="largeInput" name="commentText" placeholder="Enter comment here..."></textarea>
+                <button id="postNewComment" class="bottomButton">Post comment</button>
+            </form>
+        </span>
+    </div>
+
+    <div id="whoIsIt" class="whoIsIt">
+        <img class="imageTile" id="whoIsItImage">
+        <p>Name: <span id="whoIsItName"></span></p>
+        <p>Email: <span id="whoIsItEmail"></span></p>
+        <p>Phone: <span id="whoIsItPhone"></span></p>
+        <p>Role: <span id="whoIsItRole"></span></p>
+    </div>
+
+    <div id="liveChat" class="liveChat">
+        <div id="liveChatWindow"></div>
+        <input id="chatMessage" placeholder="Type your message...">
+        <button id="chatSendMessage">Send</button>
+    </div>
+
 </div>
 
 </body>
@@ -52,10 +79,12 @@ setTimeout(function(){
     userRole = document.querySelector('#whoIsItRole').textContent
 }, 500)
 
-var socket = io();
+try{
+    var socket = io();
 socket.on( 'receiveMessage', function(jData){
     liveChatWindow.innerHTML += '<p style="margin-bottom:5px;"><span style="color:lightblue;">'+jData.name+' ('+jData.role+'):<br> </span>'+jData.message+'</p>';
 })
+}catch(err){}
 
 $('#chatSendMessage').click(function(){
     var object = {};
@@ -63,7 +92,7 @@ $('#chatSendMessage').click(function(){
     object.role = userRole;
     object.message = chatMessage.value;
     socket.emit('sendMessage', object);
-    console.log(object)
+    chatMessage.value = "";
 });
 
 </script>

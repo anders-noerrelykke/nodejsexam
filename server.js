@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
-const port = 443
+// const port = 2900 //Development
+const port = 443 //Production
 const server = app.listen(port, err =>{
     if(err){
         return err
@@ -17,7 +18,7 @@ const user = require('./controller/user/user')
 const post = require('./controller/post/post')
 
 const uniqid = require('uniqid')
-const siteLink = "localhost:2900"
+const siteLink = "http://167.99.94.228:433"
 
 
 global.db = null;
@@ -161,7 +162,7 @@ app.get('/get-all-users/', (req, res) => {
     user.getAllUsers((err, data) => {
         if (err) {
             console.log('err')
-            return res.json(false);
+            return res.json(true);
         }
         res.json(data);
     });
@@ -170,23 +171,65 @@ app.get('/get-all-users/', (req, res) => {
 /***************************************************** */
 /***************************************************** */
 
-app.post('/create-post/', (req, res) => {
+app.post('/create-post/:id', (req, res) => {
+    console.log(req.fields)
     let postData = {
         title: req.fields.newPostTitle,
         content: req.fields.newPostContent,
         posted_date: new Date(),
+        author_id: req.params.id,
         answered: false
     }
-
+    post.createPost(postData, (err, postData) => {
+        if(err){
+            return res.json(true, null)
+        }
+        res.json(postData)
+    })
 })
 
 app.get('/get-all-posts', (req, res) => {
     post.getAllPosts((err, data) => {
         if (err) {
             console.log('err')
-            return res.json(false);
+            return res.json(true);
         }
         res.json(data);
+    })
+})
+
+app.get('/get-post/:id', (req, res) => {
+    const id = req.params.id
+    post.getPost(id, (err, post) => {
+        if(err){
+            return res.json(true, null)
+        }
+        res.json(post)
+    })
+})
+
+app.post('/mark-answer/:id', (req, res) => {
+    const id = req.params.id
+    post.markAnswer(id, (err, post) => {
+        if(err){
+            return res.json(true, null)
+        }
+        res.json(post)
+    })
+})
+
+app.post('/post-comment/:id', (req, res) => {
+    const id = req.params.id
+    let comment = {
+        $push : {
+            comment: req.fields.commentText
+        }
+    }
+    post.postComment(id, comment, (err, post) => {
+        if(err){
+            return res.json(true, null)
+        }
+        res.json(post)
     })
 })
 

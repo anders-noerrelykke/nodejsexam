@@ -11,6 +11,42 @@ thisUser = "";
 /***************************************************** */
 /***************************************************** */
 
+//NAV
+
+function readyNew(){
+    document.querySelector('#newPostBox').style.display = 'flex';
+}
+
+function readyShow(id){
+    document.querySelector('#showPostBox').style.display = 'flex';
+    doAjax(
+        'GET',
+        '/get-post/'+id,
+        function(res){
+            document.querySelector('#commentsList').innerHTML = ""
+            postData = JSON.parse(res)
+            document.querySelector('#showPostTitle').innerHTML = postData.title
+            document.querySelector('#showPostContent').innerHTML = postData.content
+            for(let i = 0; i < postData.comment.length; i++){
+                document.querySelector('#commentsList').innerHTML += "- "+postData.comment[i]+"<br>"
+            }
+        }
+    )
+    document.querySelector('#postNewComment').addEventListener('click', function(){
+        postComment(id)
+    })
+}
+
+function closeBox(boxId){
+    document.querySelector('#'+boxId).style.display = 'none'
+
+}
+
+
+/***************************************************** */
+/***************************************************** */
+
+
 const stored_tempId = localStorage.getItem('nodeTempId')
 validateTempId(stored_tempId)
 
@@ -42,7 +78,7 @@ function validateTempId(stored_tempId){
 function fillOutUser(){
     userBox = document.querySelector('#whoIsIt')
     if(userBox){
-        document.querySelector('#whoIsItImage').src = thisUser.img
+        try{document.querySelector('#whoIsItImage').src = thisUser.img}catch(err){}
         document.querySelector('#whoIsItName').innerHTML = thisUser.firstname+" "+thisUser.lastname
         document.querySelector('#whoIsItEmail').innerHTML = thisUser.email
         document.querySelector('#whoIsItPhone').innerHTML = thisUser.phone
@@ -114,14 +150,14 @@ function createUser(){
 /***************************************************** */
 
 function createPost(){
-    var formData = new FormData(formNewPost)
-    console.log(formData)
+    var formData = new FormData(newPostForm)
     doAjax(
     'POST',
-    '/create-post/',
+    '/create-post/'+thisUser._id,
     function(res){
         newPost = JSON.parse(res)
         console.log(newPost)
+        getAllPosts()
     },
     formData)
 }
@@ -135,13 +171,18 @@ function getAllPosts(){
             console.log(postData)
             boxList = document.querySelector('#postsList')
             if(boxList){
+                boxList.innerHTML = ""
                 postData.forEach(post => {
                     answeredButton = ""
-                    if(post.author_id == thisUser._id){
-                        answeredButton = `<button class="btnAnswered">Mark as answered</button>`
+                    extraClass = ""
+                    if(post.author_id == thisUser._id && post.answered != true){
+                        answeredButton = `<button class="btnAnswered" onclick="markAnswer('`+post._id+`')">Mark as answered</button>`
+                    }
+                    if(post.answered == true){
+                        extraClass = " answered"
                     }
                     boxList.innerHTML += `
-                    <div class="listItem">
+                    <div class="listItem`+extraClass+`" onclick="readyShow('`+post._id+`')">
                     <h3>`+post.title+`</h3>
                     <p>`+post.content+`</p>
                     `+answeredButton+`
@@ -150,6 +191,33 @@ function getAllPosts(){
             }
         }
     )
+}
+
+function markAnswer(id){
+    doAjax(
+        'POST',
+        '/mark-answer/'+id,
+        function(res){
+            console.log(res)
+            setTimeout(function(){
+                getAllPosts()
+            }, 500)
+        }
+    )
+}
+
+function postComment(id){
+    formData = new FormData(newComment)
+    doAjax(
+        'POST',
+        '/post-comment/'+id,
+        function(res){
+            console.log(res)
+            setTimeout(function(){
+                getAllPosts()
+            }, 500)
+        },
+        formData)
 }
 
 /***************************************************** */

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ErrorThrower - Node.js Exam Project</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="mainMenu">
+        <h1>ErrorThrower</h1>
+    </header>
+    <div class="horizontal">
+        <div class="half">
+            <form id="formLogin" name="formLogin">
+                <h2>Login</h2>
+                <input id="loginUsername" name="loginUsername" placeholder="Username">
+                <input id="loginPassword" name="loginPassword" type="password" placeholder="Password">
+                <div id="loginErrorMessage"></div>
+                <button id="btnLogin" type="button" onclick="login()">Login</button>
+            </form>
+        </div>
+        <div class="half">
+            <form id="formSignup" name="formSignup">
+                <h2>Sign up</h2>
+                <input name="signupFirstname" placeholder="First name">
+                <input name="signupLastname" placeholder="Last name">
+                <input name="signupEmail" placeholder="Email">
+                <input name="signupPhone" placeholder="Phone (+45)">
+                <input name="signupUsername" placeholder="Username">
+                <input class="last" name="signupPassword" type="password" placeholder="Password">
+                <select id="signupRole" name="signupRole">
+                    <option value="rookie" selected disabled>Role:</option>
+                    <option value="rookie">Rookie</option>
+                    <option value="expert">Expert</option>
+                </select>
+                <label for="signupImage">Image:</label>
+                <input name="signupImage" type="file">
+                <div id="signupErrorMessage"></div>
+                <button id="btnSignup" type="button" onclick="createUser()">Sign up</button>
+            </form>
+        </div>
+    </div>
+
+<script src="js/app.js"></script>
+</body>
+
+</html>

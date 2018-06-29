@@ -1,18 +1,32 @@
 {
   "name": "nodejsexam",
   "version": "1.0.0",
-  "description": "Exam project for NodeJS, 2nd semester, Web Development, KEA",
-  "main": "index.js",
+  "description": "Exam project for NodeJS, 2nd semester, Web Development, KEA, 2018",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "run": "forever server.js"
   },
   "author": "Anders Nørrelykke",
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^3.3.7",
     "express": "^4.16.3",
+    "express-formidable": "^1.0.0",
     "file-system": "^2.2.2",
+    "forever": "^0.15.3",
     "fs": "0.0.1-security",
-    "nodemon": "^1.17.4"
+    "jsonwebtoken": "^8.3.0",
+    "mongodb": "^2.2.33",
+    "nodemailer": "^4.6.7",
+    "nodemon": "^1.17.4",
+    "request": "^2.87.0",
+    "socket.io": "^2.1.1",
+    "uniqid": "^5.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anders-noerrelykke/nodejsexam.git",
+    "private": true
   }
 }

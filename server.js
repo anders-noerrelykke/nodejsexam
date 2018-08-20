@@ -260,10 +260,10 @@ app.get('/overview', function(req, res){
 })
 
 // port = 2900
-// app.listen(port, err =>{
-//     if(err){
-//         console.log(err)
-//         return err
-//     }
-//     console.log("listening on port "+port)
-// })
+app.listen(port, err =>{
+    if(err){
+        console.log(err)
+        return err
+    }
+    console.log("listening on port "+port)
+})

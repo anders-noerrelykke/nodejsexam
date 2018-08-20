@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
-//const port = 2900 //Development
-const port = 443 //Production
+const port = 2830 //Development
+//const port = 443 //Production
 const server = app.listen(port, err =>{
     if(err){
         return err
@@ -260,10 +260,10 @@ app.get('/overview', function(req, res){
 })
 
 // port = 2900
-app.listen(port, err =>{
-    if(err){
-        console.log(err)
-        return err
-    }
-    console.log("listening on port "+port)
-})
+// app.listen(port, err =>{
+//     if(err){
+//         console.log(err)
+//         return err
+//     }
+//     console.log("listening on port "+port)
+// })

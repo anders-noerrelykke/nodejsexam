@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
-//const port = 2830 //Development
-const port = 443 //Production
+const port = 2900 //Development
+//const port = 443 //Production
 const server = app.listen(port, err =>{
     if(err){
         return err
@@ -27,6 +27,7 @@ const sDatabasePath = 'mongodb://arne:mongo123@ds261660.mlab.com:61660/node-exam
 mongo.connect(sDatabasePath, (err, db) => {
     if(err) {
       console.log("Couldn't connect to database")
+      console.log(err)
       return false
     }
     console.log("Connected to database!")
@@ -164,7 +165,7 @@ app.get('/get-all-users/', (req, res) => {
             console.log('err')
             return res.json(true);
         }
-        res.json(data);
+        return res.json(data);
     });
 });
 
@@ -184,7 +185,7 @@ app.post('/create-post/:id', (req, res) => {
         if(err){
             return res.json(true, null)
         }
-        res.json(postData)
+        return res.json(postData)
     })
 })
 
@@ -194,7 +195,7 @@ app.get('/get-all-posts', (req, res) => {
             console.log('err')
             return res.json(true);
         }
-        res.json(data);
+        return res.json(data);
     })
 })
 
@@ -204,7 +205,7 @@ app.get('/get-post/:id', (req, res) => {
         if(err){
             return res.json(true, null)
         }
-        res.json(post)
+        return res.json(post)
     })
 })
 
@@ -214,7 +215,7 @@ app.post('/mark-answer/:id', (req, res) => {
         if(err){
             return res.json(true, null)
         }
-        res.json(post)
+        return res.json(post)
     })
 })
 
@@ -229,7 +230,7 @@ app.post('/post-comment/:id', (req, res) => {
         if(err){
             return res.json(true, null)
         }
-        res.json(post)
+        return res.json(post)
     })
 })
 

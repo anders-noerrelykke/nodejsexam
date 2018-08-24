@@ -27,8 +27,10 @@ function readyShow(id){
             postData = JSON.parse(res)
             document.querySelector('#showPostTitle').innerHTML = postData.title
             document.querySelector('#showPostContent').innerHTML = postData.content
-            for(let i = 0; i < postData.comment.length; i++){
-                document.querySelector('#commentsList').innerHTML += "- "+postData.comment[i]+"<br>"
+            if(postData.comment) {
+                for(let i = 0; i < postData.comment.length; i++){
+                    document.querySelector('#commentsList').innerHTML += "- "+postData.comment[i]+"<br>"
+                }
             }
         }
     )
@@ -77,8 +79,13 @@ function validateTempId(stored_tempId){
 
 function fillOutUser(){
     userBox = document.querySelector('#whoIsIt')
+    console.log(thisUser)
     if(userBox){
-        try{document.querySelector('#whoIsItImage').src = thisUser.img}catch(err){}
+        if(thisUser.image){
+            try{document.querySelector('#whoIsItImage').src = thisUser.img}catch(err){}
+        }else{
+            try{document.querySelector('#whoIsItImage').src = '/img/user/anonymous.png'}catch(err){}
+        }
         document.querySelector('#whoIsItName').innerHTML = thisUser.firstname+" "+thisUser.lastname
         document.querySelector('#whoIsItEmail').innerHTML = thisUser.email
         document.querySelector('#whoIsItPhone').innerHTML = thisUser.phone

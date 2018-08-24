@@ -49,6 +49,8 @@ user.createUser = (userData, fCallback) => {
         const imgPathAbsolute = 'public' + imgPath;
         userData.img = imgPath;
         fs.renameSync(userData.image.path, imgPathAbsolute);
+    }else{
+        userData.img = '/img/user/anonymous.png';
     }
     global.db.collection('users')
     .insertOne(userData, (err, res) => {

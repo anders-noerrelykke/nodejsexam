@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 //const port = 2900 //Development
 const port = 443 //Production
-const server = app.listen(port, err =>{
+const serverPort = app.listen(port, err =>{
     if(err){
         return err
     }
@@ -13,7 +13,7 @@ const http = require('http').Server(app)
 const mongo = require('mongodb').MongoClient
 const nodemailer = require('nodemailer')
 const request = require('request')
-const io = require('socket.io').listen(server);
+const io = require('socket.io').listen(serverPort);
 const user = require('./controller/user/user')
 const post = require('./controller/post/post')
 
